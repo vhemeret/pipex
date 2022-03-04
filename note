@@ -1,8 +1,10 @@
 reste :
 
-- gérer leaks le cas ou une commande est fausse et contient un flag.
-	ex : ( valgrind --leak-check=full ./pipex /dev/fd/0 "echopipi" "echopipi -la" /dev/fd/1)
-
+- gérer leaks 
+	le cas ou une commande est fausse et contient un flag.
+		ex : ( valgrind --leak-check=full ./pipex /dev/fd/0 "echopipi" "echopipi -la" /dev/fd/1)
+	double free.
+		ex :  valgrind --leak-check=full ./pipex /dev/fd/0 "/usr/bin/ls -la" "cat" /dev/fd/1
 - Passer la norme.
 
 - retirer "-g" Makefile
