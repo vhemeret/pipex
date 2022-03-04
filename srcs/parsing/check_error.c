@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 13:35:34 by vahemere          #+#    #+#             */
-/*   Updated: 2022/02/23 06:58:39 by vahemere         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:28:58 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	check_error(int ac, char **av, char **env, t_struct *data)
 		free_double_tab(data->envp);
 		return (ft_putstr_fd("Error:\nThe environment is corrupted.\n", 1));
 	}
-	malloc_arg_tab(data);
 	get_cmd1(data, data->cmd1);
 	get_cmd2(data, data->cmd2);
 	return (1);

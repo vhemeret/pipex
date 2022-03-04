@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 18:02:40 by vahemere          #+#    #+#             */
-/*   Updated: 2022/02/23 06:58:58 by vahemere         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:29:53 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,9 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <sys/types.h>
-# include <sys/wait.h>
 # include <errno.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/stat.h>
+# include <sys/wait.h>
 # include <fcntl.h>
-
-# define BONUS 0
 
 typedef struct s_struct
 {
@@ -33,12 +27,11 @@ typedef struct s_struct
 	int		outfile;
 	int		child1;
 	int		child2;
-	int		start;
-	int		nb_cmd;
 	int		flag1;
 	int		flag2;
 	int		cmd1_is_invalid;
 	int		cmd2_is_invalid;
+	int		is_quote;
 	char	**envp;
 	char	*file1;
 	char	*file2;
@@ -50,7 +43,6 @@ typedef struct s_struct
 	char	*path_cmd2;
 	char	**cmd1_tab;
 	char	**cmd2_tab;
-
 }				t_struct;
 
 /*####################### MANDATORY PART #######################*/
@@ -62,9 +54,10 @@ void	check_cmd(t_struct *data, char **av);
 int		check_directory(char *path_file, int file);
 int		check_file1(char *path_file);
 int		check_file2(t_struct *data);
-void	malloc_arg_tab(t_struct *data);
+void	manage_quote(t_struct *data, char c);
 int		get_cmd1(t_struct *data, char *cmd);
 int		get_cmd2(t_struct *data, char *cmd);
+void	put_arg_tab(t_struct *data, char **tab, char *cmd);
 int		check_access_cmd1(t_struct *data, char *cmd);
 int		check_access_cmd2(t_struct *data, char *cmd);
 int		check_if_flag(char *cmd);
@@ -75,7 +68,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char *path, char *cmd);
 char	*extract_str(char *str, int to_find);
-char	*extract_flag(char *cmd, int to_find);
+char	*extract_flag(char *cmd);
 int		ft_putstr_fd(char *s, int fd);
 int		ft_strlen(char *str);
 

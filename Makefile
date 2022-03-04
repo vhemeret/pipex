@@ -6,7 +6,7 @@
 #    By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 17:21:19 by vahemere          #+#    #+#              #
-#    Updated: 2022/02/23 05:35:08 by vahemere         ###   ########.fr        #
+#    Updated: 2022/03/04 20:09:35 by vahemere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS_DIR = $(shell find srcs -type d)
 vpath %.c $(foreach dir, $(SRCS_DIR), $(dir))
 SRCS = main.c \
 pipex.c \
-check_error.c check_file.c get_env.c manage_cmd.c get_cmd.c \
+arg_tab.c check_error.c check_file.c get_env.c manage_cmd.c get_cmd.c \
 extract_flag.c extract_str.c ft_putstr_fd.c ft_split.c ft_strchr.c ft_strjoin.c ft_strlen.c to_find.c \
 to_free.c \
 
@@ -28,7 +28,7 @@ NORM = norminette
 
 ########################### COMPILATION AND FLAGS ###########################
 
-CC = clang
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
 ##################################### COLOR ##################################
