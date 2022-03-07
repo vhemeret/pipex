@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 15:17:14 by vahemere          #+#    #+#             */
-/*   Updated: 2022/03/04 16:53:59 by vahemere         ###   ########.fr       */
+/*   Updated: 2022/03/07 17:36:55 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ int	check_access_cmd1(t_struct *data, char *cmd)
 	char	*path_cmd;
 
 	i = -1;
+	data->cmd1_is_path = 0;
 	data->cmd1_is_invalid = 0;
 	if (cmd)
 	{
 		fd = access(cmd, F_OK);
 		if (fd == 0)
 		{
+			data->cmd1_is_path = 1;
 			data->path_cmd1 = cmd;
 			return (1);
 		}
@@ -55,25 +57,30 @@ int	check_access_cmd2(t_struct *data, char *cmd)
 
 	i = -1;
 	data->cmd2_is_invalid = 0;
+	data->cmd2_is_path = 0;
 	if (cmd)
 	{
 		fd = access(cmd, F_OK);
 		if (fd == 0)
 		{
-			data->path_cmd1 = cmd;
+			data->cmd2_is_path = 1;
+			data->path_cmd2 = cmd;
 			return (1);
 		}
-		while (data->envp[++i])
+		else
 		{
-			path_cmd = ft_strjoin(data->envp[i], cmd);
-			fd = access(path_cmd, F_OK);
-			if (fd == 0)
+			while (data->envp[++i])
 			{
-				data->path_cmd2 = path_cmd;
-				return (1);
+				path_cmd = ft_strjoin(data->envp[i], cmd);
+				fd = access(path_cmd, F_OK);
+				if (fd == 0)
+				{
+					data->path_cmd2 = path_cmd;
+					return (1);
+				}
+				free(path_cmd);
+				path_cmd = NULL;
 			}
-			free(path_cmd);
-			path_cmd = NULL;
 		}
 	}
 	return (0);

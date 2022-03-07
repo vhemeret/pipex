@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 18:27:58 by vahemere          #+#    #+#             */
-/*   Updated: 2022/03/04 20:07:35 by vahemere         ###   ########.fr       */
+/*   Updated: 2022/03/07 17:21:50 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,15 @@ void	cleaning(t_struct *data)
 		free_double_tab(data->cmd2_tab);
 	else
 		free(data->cmd2_tab);
-	free(data->cmd1);
-	data->cmd1 = NULL;
-	free(data->cmd2);
-	data->cmd2 = NULL;
+	if (data->cmd1_is_path == 0)
+	{
+		free(data->cmd1);
+		data->cmd1 = NULL;
+	}
+	if (data->cmd2_is_path == 0)
+	{
+		free(data->cmd2);
+		data->cmd2 = NULL;
+	}
 	free(data);
 }

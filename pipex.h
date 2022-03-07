@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 18:02:40 by vahemere          #+#    #+#             */
-/*   Updated: 2022/03/04 20:29:53 by vahemere         ###   ########.fr       */
+/*   Updated: 2022/03/07 17:19:28 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_struct
 	int		flag2;
 	int		cmd1_is_invalid;
 	int		cmd2_is_invalid;
+	int		cmd1_is_path;
+	int		cmd2_is_path;
 	int		is_quote;
 	char	**envp;
 	char	*file1;
@@ -57,7 +59,11 @@ int		check_file2(t_struct *data);
 void	manage_quote(t_struct *data, char c);
 int		get_cmd1(t_struct *data, char *cmd);
 int		get_cmd2(t_struct *data, char *cmd);
+int		nb_arg_tab(t_struct *data, char *cmd);
+int		is_whithspace(char c);
+void	manage_quote(t_struct *data, char c);
 void	put_arg_tab(t_struct *data, char **tab, char *cmd);
+void	check_access_cmd(t_struct *data, char *cmd1, char *cmd2);
 int		check_access_cmd1(t_struct *data, char *cmd);
 int		check_access_cmd2(t_struct *data, char *cmd);
 int		check_if_flag(char *cmd);
