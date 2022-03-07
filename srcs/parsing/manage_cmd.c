@@ -6,81 +6,55 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 15:17:14 by vahemere          #+#    #+#             */
-/*   Updated: 2022/03/07 17:36:55 by vahemere         ###   ########.fr       */
+/*   Updated: 2022/03/07 22:18:03 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../pipex.h"
 
-int	check_access_cmd1(t_struct *data, char *cmd)
+int	get_absolute_path(t_struct *data, char *cmd, int index)
 {
 	int		i;
 	int		fd;
 	char	*path_cmd;
 
 	i = -1;
-	data->cmd1_is_path = 0;
-	data->cmd1_is_invalid = 0;
+	path_cmd = NULL;
 	if (cmd)
 	{
-		fd = access(cmd, F_OK);
-		if (fd == 0)
+		while (data->envp[++i])
 		{
-			data->cmd1_is_path = 1;
-			data->path_cmd1 = cmd;
-			return (1);
-		}
-		else
-		{
-			while (data->envp[++i])
+			path_cmd = ft_strjoin(data->envp[i], cmd);
+			fd = access(path_cmd, F_OK);
+			if (fd == 0)
 			{
-				path_cmd = ft_strjoin(data->envp[i], cmd);
-				fd = access(path_cmd, F_OK);
-				if (fd == 0)
-				{
+				if (index == 1)
 					data->path_cmd1 = path_cmd;
-					return (1);
-				}
-				free(path_cmd);
-				path_cmd = NULL;
+				else if (index == 2)
+					data->path_cmd2 = path_cmd;
+				return (1);
 			}
+			free(path_cmd);
+			path_cmd = NULL;
 		}
 	}
 	return (0);
 }
 
-int	check_access_cmd2(t_struct *data, char *cmd)
+int	check_absolute_path(t_struct *data, char *cmd, int index)
 {
-	int		i;
 	int		fd;
-	char	*path_cmd;
 
-	i = -1;
-	data->cmd2_is_invalid = 0;
-	data->cmd2_is_path = 0;
 	if (cmd)
 	{
 		fd = access(cmd, F_OK);
 		if (fd == 0)
 		{
-			data->cmd2_is_path = 1;
-			data->path_cmd2 = cmd;
+			if (index == 1)
+				data->path_cmd1 = cmd;
+			else if (index == 2)
+				data->path_cmd2 = cmd;
 			return (1);
-		}
-		else
-		{
-			while (data->envp[++i])
-			{
-				path_cmd = ft_strjoin(data->envp[i], cmd);
-				fd = access(path_cmd, F_OK);
-				if (fd == 0)
-				{
-					data->path_cmd2 = path_cmd;
-					return (1);
-				}
-				free(path_cmd);
-				path_cmd = NULL;
-			}
 		}
 	}
 	return (0);

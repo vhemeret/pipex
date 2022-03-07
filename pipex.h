@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 18:02:40 by vahemere          #+#    #+#             */
-/*   Updated: 2022/03/07 17:19:28 by vahemere         ###   ########.fr       */
+/*   Updated: 2022/03/07 22:25:52 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PIPEX_H
 
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
 # include <errno.h>
 # include <sys/wait.h>
@@ -62,10 +61,10 @@ int		get_cmd2(t_struct *data, char *cmd);
 int		nb_arg_tab(t_struct *data, char *cmd);
 int		is_whithspace(char c);
 void	manage_quote(t_struct *data, char c);
-void	put_arg_tab(t_struct *data, char **tab, char *cmd);
+void	put_arg_tab(t_struct *data, char **tab, char *cmd, int tab_index);
 void	check_access_cmd(t_struct *data, char *cmd1, char *cmd2);
-int		check_access_cmd1(t_struct *data, char *cmd);
-int		check_access_cmd2(t_struct *data, char *cmd);
+int		get_absolute_path(t_struct *data, char *cmd, int index);
+int		check_absolute_path(t_struct *data, char *cmd, int index);
 int		check_if_flag(char *cmd);
 
 /* UTILS */

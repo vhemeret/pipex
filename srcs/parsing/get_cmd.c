@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 00:17:38 by vahemere          #+#    #+#             */
-/*   Updated: 2022/03/07 17:27:20 by vahemere         ###   ########.fr       */
+/*   Updated: 2022/03/07 22:35:33 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,28 @@
 
 void	check_access_cmd(t_struct *data, char *cmd1, char *cmd2)
 {
-	data->flag1 = check_if_flag(cmd1);
-	data->flag2 = check_if_flag(cmd2);
 	data->cmd1 = extract_str(cmd1, ' ');
 	data->cmd2 = extract_str(cmd2, ' ');
-	if (!check_access_cmd1(data, data->cmd1))
+	if (!check_absolute_path(data, data->cmd1, 1))
 	{
-		data->cmd1_is_invalid = 1;
-		data->path_cmd1 = NULL;
+		if (!get_absolute_path(data, data->cmd1, 1))
+		{
+			data->path_cmd1 = NULL;
+			data->cmd1_is_invalid = 1;
+		}
 	}
-	if (!check_access_cmd2(data, data->cmd2))
+	else
+		data->cmd1_is_path = 1;
+	if (!check_absolute_path(data, data->cmd2, 2))
 	{
-		data->cmd2_is_invalid = 1;
-		data->path_cmd2 = NULL;
+		if (!get_absolute_path(data, data->cmd2, 2))
+		{
+			data->path_cmd2 = NULL;
+			data->cmd2_is_invalid = 1;
+		}
 	}
+	else
+		data->cmd2_is_path = 1;
 	get_cmd1(data, cmd1);
 	get_cmd2(data, cmd2);
 }
@@ -44,7 +52,7 @@ int	get_cmd1(t_struct *data, char *cmd)
 		if (!data->cmd1_tab)
 			return (0);
 		data->cmd1_tab[0] = data->path_cmd1;
-		put_arg_tab(data, data->cmd1_tab, extract_flag(cmd));
+		put_arg_tab(data, data->cmd1_tab, extract_flag(cmd), 1);
 	}
 	else
 	{
@@ -71,7 +79,7 @@ int	get_cmd2(t_struct *data, char *cmd)
 		if (!data->cmd2_tab)
 			return (0);
 		data->cmd2_tab[0] = data->path_cmd2;
-		put_arg_tab(data, data->cmd2_tab, extract_flag(cmd));
+		put_arg_tab(data, data->cmd2_tab, extract_flag(cmd), 1);
 	}
 	else
 	{

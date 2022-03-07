@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 03:29:40 by vahemere          #+#    #+#             */
-/*   Updated: 2022/03/07 17:36:53 by vahemere         ###   ########.fr       */
+/*   Updated: 2022/03/07 18:57:04 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,11 @@ static char	*alloc_and_put(char *cmd)
 	return (tab);
 }
 
-void	put_arg_tab(t_struct *data, char **tab, char *cmd)
+void	put_arg_tab(t_struct *data, char **tab, char *cmd, int tab_index)
 {
-	int		i;
-	int		tab_index;
+	int	i;
 
 	i = -1;
-	tab_index = 1;
 	data->is_quote = 0;
 	while (cmd[++i])
 	{
@@ -75,22 +73,17 @@ void	put_arg_tab(t_struct *data, char **tab, char *cmd)
 		else if (((cmd[i] < 9 || cmd[i] > 13) && cmd[i] != ' ')
 			&& data->is_quote == 0 && cmd[i])
 		{
-			tab[tab_index] = alloc_and_put(&cmd[i]);
+			tab[tab_index++] = alloc_and_put(&cmd[i]);
 			while ((cmd[i] < 9 || cmd[i] > 13) && cmd[i] != ' ' && cmd[i])
 				i++;
-			tab_index++;
 			i -= 1;
 		}
-		else
+		else if (data->is_quote == 1)
 		{
-			if (data->is_quote == 1)
-			{
-				tab[tab_index] = alloc_and_put_into_quote(&cmd[i]);
-				while (cmd[i] && cmd[i] != 39)
-					i++;
-				tab_index++;
-				i -= 1;
-			}
+			tab[tab_index++] = alloc_and_put_into_quote(&cmd[i]);
+			while (cmd[i] && cmd[i] != 39)
+				i++;
+			i -= 1;
 		}
 	}
 }
